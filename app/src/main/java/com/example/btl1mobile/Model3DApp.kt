@@ -97,7 +97,9 @@ fun ModelViewer() {
     Column {
         Scene(
             // The modifier to be applied to the layout.
-            modifier = Modifier.weight(1f).background(Color.LightGray),
+            modifier = Modifier
+                .weight(1f)
+                .background(Color.LightGray),
             engine = engine,
             view = view,
             renderer = renderer,
@@ -164,7 +166,7 @@ fun ModelViewer() {
                         modifier = Modifier.padding(8.dp),
                         shape = RoundedCornerShape(10.dp)
                     ) {
-                        Text("Di Chuyển")
+                        Text(stringResource(R.string.model_animate))
                     }
                 }
                 Row(
@@ -228,7 +230,7 @@ fun ModelControlPanel(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                "Điều khiển vật thể",
+                stringResource(R.string.controller_heading),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.padding(bottom = 8.dp)
@@ -238,13 +240,15 @@ fun ModelControlPanel(
                 onClick = onTurnBack
             ) {
                 Icon(Icons.AutoMirrored.Rounded.KeyboardArrowLeft, "Back Icon")
-                Text(text = "Trở lại")
+                Text(text = stringResource(R.string.back))
             }
         }
 
-        // Position Controls with Thumbstick
+        // Position Controls with joystick
         Row(
-            modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp, bottom = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Top
         ) {
@@ -252,11 +256,11 @@ fun ModelControlPanel(
             Column {
                 Button(onClick = onMoveForward, modifier = Modifier.width(136.dp)) {
                     Icon(painterResource(R.drawable.zoom_out), contentDescription = "zoom out")
-                    Text("Thu Nhỏ")
+                    Text(stringResource(R.string.zoom_out))
                 }
                 Button(onClick = onMoveBackward, modifier = Modifier.width(136.dp)) {
                     Icon(painterResource(R.drawable.zoom_in), contentDescription = "zoom in")
-                    Text("Phóng To")
+                    Text(stringResource(R.string.zoom_in))
                 }
             }
         }
@@ -269,24 +273,24 @@ fun ModelControlPanel(
                 .padding(top = 8.dp)
         ) {
             Icon(Icons.Filled.Refresh, contentDescription = "Default Position")
-            Text("Vị Trí Mặc Định")
+            Text(stringResource(R.string.default_position))
         }
     }
 }
 
 @Composable
 fun Thumbstick(onMove: (Float, Float) -> Unit) {
-    val thumbstickSize = 150.dp
+    val jobStickSize = 150.dp
     val thumbSize = 40.dp
 
     // State for current thumb position
     var thumbPosition by remember { mutableStateOf(Offset.Zero) }
-    // State to track if thumbstick is being interacted with
+    // State to track if joystick is being interacted with
     var isPressed by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
-            .size(thumbstickSize)
+            .size(jobStickSize)
 //            .background(Color.DarkGray, shape = CircleShape)
             .padding(4.dp)
             .pointerInput(Unit) {
@@ -298,7 +302,7 @@ fun Thumbstick(onMove: (Float, Float) -> Unit) {
                         thumbPosition = Offset(offset.x - center.x, offset.y - center.y)
 
                         // Constrain initial position
-                        val maxRadius = (thumbstickSize.toPx() - thumbSize.toPx()) / 2
+                        val maxRadius = (jobStickSize.toPx() - thumbSize.toPx()) / 2
                         val distance = thumbPosition.getDistance()
                         if (distance > maxRadius) {
                             val angle = thumbPosition.getAngle()
@@ -309,9 +313,10 @@ fun Thumbstick(onMove: (Float, Float) -> Unit) {
                         }
 
                         // Calculate normalized direction
-                        val maxDistance = (thumbstickSize.toPx() - thumbSize.toPx()) / 2
+                        val maxDistance = (jobStickSize.toPx() - thumbSize.toPx()) / 2
                         val normalizedX = thumbPosition.x / maxDistance
-                        val normalizedY = -thumbPosition.y / maxDistance // Negate Y for expected direction
+                        val normalizedY =
+                            -thumbPosition.y / maxDistance // Negate Y for expected direction
 
                         // Send movement regardless of whether we're at the edge
                         onMove(normalizedX, normalizedY)
@@ -328,7 +333,7 @@ fun Thumbstick(onMove: (Float, Float) -> Unit) {
                         thumbPosition += dragAmount
 
                         // Calculate the maximum distance the thumb can travel
-                        val maxRadius = (thumbstickSize.toPx() - thumbSize.toPx()) / 2
+                        val maxRadius = (jobStickSize.toPx() - thumbSize.toPx()) / 2
 
                         // If distance exceeds maxRadius, normalize the vector but keep direction
                         val distance = thumbPosition.getDistance()
@@ -345,7 +350,8 @@ fun Thumbstick(onMove: (Float, Float) -> Unit) {
                         // Calculate normalized direction values (-1 to 1)
                         // This will be the same whether we're at the edge or not
                         val normalizedX = thumbPosition.x / maxRadius
-                        val normalizedY = -thumbPosition.y / maxRadius // Negate Y for expected direction
+                        val normalizedY =
+                            -thumbPosition.y / maxRadius // Negate Y for expected direction
 
 
                         // Always send movement based on direction

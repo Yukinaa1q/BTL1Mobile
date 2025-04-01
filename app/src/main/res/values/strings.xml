@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">btl1Mobile</string>
     <string name="main_menu">MÀN HÌNH CHÍNH</string>
+    <string name="model_animate">Di Chuyển</string>
+    <string name="controller_heading">Điều khiển vật thể</string>
+    <string name="back">Trở lại</string>
+    <string name="zoom_out">Thu Nhỏ</string>
+    <string name="zoom_in">Phóng To</string>
+    <string name="default_position">Vị Trí Mặc Định</string>
 </resources>
