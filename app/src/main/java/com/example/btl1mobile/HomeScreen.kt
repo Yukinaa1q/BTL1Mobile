@@ -23,7 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun HomeScreen(onBackPressed: () -> Unit) {
+fun HomeScreen(onBackPressed: () -> Unit,
+               onModelViewClick: () -> Unit,
+               onCameraViewClick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -44,7 +46,7 @@ fun HomeScreen(onBackPressed: () -> Unit) {
         )
 
         Button(
-            onClick = { /* Handle AR view */ },
+            onClick = onModelViewClick,
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF195EB6))
         ) {
@@ -68,7 +70,7 @@ fun HomeScreen(onBackPressed: () -> Unit) {
         )
 
         Button(
-            onClick = { /* Handle QR code scanning */ },
+            onClick = onCameraViewClick,
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF195EB6))
         ) {

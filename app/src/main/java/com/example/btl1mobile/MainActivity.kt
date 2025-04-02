@@ -36,6 +36,7 @@ enum class BTL1Screen() {
 
 class MainActivity : ComponentActivity() {
     private lateinit var cameraExecutor: ExecutorService
+
 //    private var imageCapture: ImageCapture? = null
 
     private val requestPermissionLauncher = registerForActivityResult(
@@ -61,32 +62,46 @@ class MainActivity : ComponentActivity() {
         setContent {
             Btl1MobileTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    val navController = rememberNavController()
                     NavHost(
-                        navController = rememberNavController(),
+                        navController = navController,
                         startDestination = BTL1Screen.Login.name,
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(route = BTL1Screen.Login.name) {
-
+                            LoginScreen(
+                                onLoginSuccess = {
+                                    navController.navigate(BTL1Screen.Home.name) {
+                                        popUpTo(BTL1Screen.Login.name) { inclusive = true }
+                                    }
+                                }
+                            )
                         }
                         composable(route = BTL1Screen.Home.name) {
-
+                            HomeScreen(
+                                onModelViewClick = {
+                                    navController.navigate(BTL1Screen.ModelViewer.name)
+                                },
+                                onBackPressed = {},
+                                onCameraViewClick = {
+                                    navController.navigate(BTL1Screen.Camera.name)
+                                }
+                            )
                         }
                         composable(route = BTL1Screen.Camera.name) {
                             CameraScreen(
                                 modifier = Modifier.padding(innerPadding),
-//                                onImageCapture = { uri ->
-//                                    Toast.makeText(MainActivity.this, "Photo saved: $uri", Toast.LENGTH_SHORT).show()
-//                                }
+                                onNavigateBack = { navController.navigate(BTL1Screen.Home.name) }
                             )
                         }
                         composable(route = BTL1Screen.ModelViewer.name) {
-                            ModelViewer()
+                            ModelViewer(
+                                onReturn = { navController.navigate(BTL1Screen.Home.name) }
+                            )
                         }
                     }
                 }
             }
-            AppNavigation()
         }
     }
 
@@ -106,28 +121,28 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun AppNavigation() {
-    val navController = rememberNavController()
-
-    NavHost(navController = navController, startDestination = "login") {
-        composable("login") {
-            LoginScreen(
-                onLoginSuccess = {
-                    navController.navigate("home") {
-                        popUpTo("login") { inclusive = true }
-                    }
-                }
-            )
-        }
-        composable("home") {
-            HomeScreen(
-                onBackPressed = {
-                }
-            )
-        }
-    }
-}
+//@Composable
+//fun AppNavigation() {
+//    val navController = rememberNavController()
+//
+//    NavHost(navController = navController, startDestination = "login") {
+//        composable("login") {
+//            LoginScreen(
+//                onLoginSuccess = {
+//                    navController.navigate("home") {
+//                        popUpTo("login") { inclusive = true }
+//                    }
+//                }
+//            )
+//        }
+//        composable("home") {
+//            HomeScreen(
+//                onBackPressed = {
+//                }
+//            )
+//        }
+//    }
+//}
 
 
 

@@ -1,7 +1,7 @@
 // MainActivity.kt
 package com.example.btl1mobile
 
- import androidx.compose.foundation.background
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -20,8 +20,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowLeft
- import androidx.compose.material.icons.filled.Refresh
- import androidx.compose.material3.Button
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -67,7 +67,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 @Composable
-fun ModelViewer() {
+fun ModelViewer(onReturn: () -> Unit) {
     var isControl by remember { mutableStateOf(false) }
     val engine = rememberEngine()
     val view = rememberView(engine)
@@ -157,6 +157,7 @@ fun ModelViewer() {
             }
             else {
                 Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(Color.Black)
@@ -167,6 +168,14 @@ fun ModelViewer() {
                         shape = RoundedCornerShape(10.dp)
                     ) {
                         Text(stringResource(R.string.model_animate))
+                    }
+
+                    Button(
+                        onClick = onReturn,
+                        modifier = Modifier.padding(8.dp),
+                        shape = RoundedCornerShape(10.dp)
+                    ) {
+                        Text(stringResource(R.string.back))
                     }
                 }
                 Row(
@@ -189,20 +198,6 @@ fun ModelViewer() {
                             }
                         )
                     }
-                }
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(64.dp)
-                        .background(Color.hsl(214f, 0.85f, 0.55f))
-                ){
-                    Text(stringResource(R.string.main_menu),
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = Color.White
-                    )
                 }
             }
 
