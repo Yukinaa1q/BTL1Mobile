@@ -148,7 +148,7 @@ fun ModelViewer(onReturn: () -> Unit) {
                     onReset = {
                         modelNode.position = Position(0f, 0f, 0f)
                         modelNode.rotation = Rotation(0f, 0f, 0f)
-                        modelNode.scale = Float3(1f)
+                        modelNode.scale = Float3(0.5f)
                     },
                     onTurnBack = {
                         isControl = false
